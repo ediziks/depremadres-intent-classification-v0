@@ -1,10 +1,10 @@
 import tweepy
 import pandas as pd
-import numpy as np
 import re
 import os
 import datetime
 from dotenv import load_dotenv
+from time import sleep
 
 load_dotenv()
 
@@ -64,6 +64,7 @@ def get_tweets(df, hashtags, items=1, max_id=None):
         except Exception as e:
             print(e)
             pass
+        sleep(20)
 
     df = pd.concat([df, pd.DataFrame.from_dict(tweet_dict, "index")], ignore_index=True)
 
@@ -76,5 +77,5 @@ if __name__ == '__main__':
     hashtags = ['yagma iskenderun -filter:retweets', 'yagma antakya -filter:retweets', 'yagma maras -filter:retweets', 'yagma adana -filter:retweets',
                 'yagma adiyaman -filter:retweets', 'yagma deprem -filter:retweets', 'yagma enkaz -filter:retweets', 'yagma yardim -filter:retweets',
                 'yagma market -filter:retweets', 'yagma hirsiz -filter:retweets', 'yagma caliyor -filter:retweets', 'yagma antep -filter:retweets']
-    df = get_tweets(df, hashtags, items=5000, max_id=None)
+    df = get_tweets(df, hashtags, items=500, max_id=None)
     df.to_csv(f'./tweet-pipeline/data/tweets_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', index=False)
